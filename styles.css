@@ -1,0 +1,7 @@
+body { margin:0; padding:0;}
+html { margin:0; padding:0;}
+
+#doc-head { height:87px; background: #b9373b; border-bottom: 1px #333 solid; padding:0; }
+#doc-head h1 { font-size: 300%; color:white; padding: 15px 0 0 0; margin:0;}
+#doc-head img { float:left; padding:0; margin-right: 15px;}
+#main-content { margin: 1em; }
