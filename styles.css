@@ -1,7 +1,15 @@
 body { margin:0; padding:0;}
 html { margin:0; padding:0;}
 
-#doc-head { height:87px; background: #b9373b; border-bottom: 1px #333 solid; padding:0; }
-#doc-head h1 { font-size: 300%; color:white; padding: 15px 0 0 0; margin:0;}
-#doc-head img { float:left; padding:0; margin-right: 15px;}
+h1 { font-size: 180%; }
+h2 { font-size: 140%; }
+img { border: solid 1px #444; padding: 5px; margin: 5px; }
+
+#doc-head { height:87px; background: #b9373b; border-bottom: 1px #333 solid; padding:5px 0 5px 10px; }
+#doc-head h1 { font-size: 200%; color:white; padding: 5px 0 0 0; margin:0;}
+#doc-head img { float:right; padding:0; margin: 2px 15px 0 0;}
+#doc-head ul { margin:0; padding:0; margin-top: 10px; }
+#doc-head ul li { list-style: none; display: inline; }
+#doc-head ul a { color: white; }
+#doc-head ul a:hover { text-decoration: none; }
 #main-content { margin: 1em; }
