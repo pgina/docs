@@ -11,10 +11,11 @@ pGina Documentation: Index
 * [pGina Users Guide](user.html)
 * Plugins
    * [LocalMachine]()
-   * [LDAP Authentication]()
-   * [Drive Mapper]()
-   * [Script Runner]()
+   * [LDAP Authentication](ldap.html)
    * [MySQL Logger]()
+   * [MySQL Authentication]()
+   * [Single User]()
+   * [Session Limit]()
 
 ## Developer Docs
 
