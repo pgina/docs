@@ -14,7 +14,7 @@ How the LDAP Plugin Works
 --------------------------
 
 The LDAP Authentication plugin provides authenication services via a LDAP server.  It maps the user
-name to a LDAP Distinguished Name (DN) and attempts to bind to the LDAP server using the DN.  
+name to a LDAP Distinguished Name (DN) and attempts to bind to the LDAP server using the DN.
 If the bind is successful, it provides a positive result to the pGina service.  
 
 The user name can be mapped to a DN by one of two means: via simple pattern substitution, or via a 
@@ -49,7 +49,7 @@ if the server's certificate does not validate.
 * **SSL Certificate File** -- If you have selected "Verify Server Certificate," you can provide
 a copy of the server's public SSL certificate here.  The certificate should be provided in the
 "PEM" format that is the default for OpenSSL.  If this field is left blank, the plugin will attempt
-to use the Window's certificate store to validate the certificate.
+to use the Windows certificate store to validate the certificate.
 * **DN Pattern** -- If "Search for DN" is not selected, the user name is mapped to a DN using this
 pattern.  The substring `%u` will be replaced with the user name.
 * **Search for DN** -- When this option is selected, the "DN Pattern" (mentioned above) is not
