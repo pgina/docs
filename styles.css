@@ -1,15 +1,22 @@
-body { margin:0; padding:0;}
-html { margin:0; padding:0;}
+body { margin:0; padding:0;
+  font: 13px helvetica,arial,freesans,clean,sans-serif;
+  line-height: 1.4em;
+  height:100%;
+  }
+html { margin:0; padding:0; height:100%;}
 
-h1 { font-size: 180%; }
+h1 { font-size: 180%; border-bottom: 1px solid #cccccc; padding: .5em 0; margin: 1em 0 1em; }
 h2 { font-size: 140%; }
-img { border: solid 1px #444; padding: 5px; margin: 5px; }
+h3 { font-size: 110%; }
+img { padding: 5px; margin: 5px; box-shadow: 1px 1px 3px #aaa; }
 
 #doc-head { height:87px; background: #b9373b; border-bottom: 1px #333 solid; padding:5px 0 5px 10px; }
-#doc-head h1 { font-size: 200%; color:white; padding: 5px 0 0 0; margin:0;}
-#doc-head img { float:right; padding:0; margin: 2px 15px 0 0;}
+#doc-head h1 { font-size: 200%; border-bottom: none; color:white; padding: 5px 0 0 0; margin:0;}
+#doc-head img { float:right; padding:0; margin: 2px 15px; }
 #doc-head ul { margin:0; padding:0; margin-top: 10px; }
 #doc-head ul li { list-style: none; display: inline; }
 #doc-head ul a { color: white; }
 #doc-head ul a:hover { text-decoration: none; }
 #main-content { margin: 1em; }
+
+#footer { margin: 2em 0 0 0; padding: 1em; background: #ccc; color: #1b1b1b; }

@@ -12,8 +12,7 @@ pGina User's Guide
 * [Selecting and Configuring Plugins](#selecting)
 * [Ordering Plugins](#ordering)
 * [Testing Plugins](#testing)
-
---------
+* [Logging](#logging)
 
 <h2 id="install">Installation</h2>
 
@@ -26,12 +25,50 @@ existing local accounts.
 In addition to the "LocalMachine" plugin, a standard set of additional plugins 
 is provided and made available, but none of them are initally enabled.
 
+<h3>Verify Install</h3>
+
+After installation, start the pGina configuration application.  Verify that the pGina service
+is running and that the Credential Provider/GINA is installed and enabled.  
+
+![pgina Components Enabled](images/components_green_screen.png)
+
+pGina will not
+function properly unless these components are working.  More information about
+the Credential Provider and pGina service is provied in the next section.
+
 <h2 id="howworks">How pGina Works</h2>
 
 pGina is a replacement for the default Windows credential provider (the part
 of the system that manages logins).  Through plugins, pGina allows you to
 configure many aspects of the login process from authentication and authorization
 through to logging and terminal events.
+
+<h3>pGina Components</h3>
+
+pGina consists of two main components:  the Credential Provider (or GINA), and the 
+pGina service (which manages the plugins).
+
+![pGina components](images/pgina_components.png)
+
+For the following discussion, we'll refer to the Credential Provider or GINA as simply
+the CP.  If you are running pGina on XP or earlier, you can replace CP with GINA.
+
+The CP augments or replaces the default Windows
+authentication functionality.  It plugs-in to the Windows
+system and can configure the user interface that is displayed
+at login time (or during unlock, UAC control, etc.) as well as do custom
+authentication.  The pGina CP, however, does very 
+little on its own.  It simply receives the user's credentials and passes
+them along to the pGina service via a named pipe, and then waits for a response
+from the service.  User authentication/authorization
+is instead managed by the plugins that run within the pGina service.
+
+The pGina service is a standard Windows service that is started at boot time,
+and runs with administrator priviledges.  Note that upon initial boot, it may take 
+some time for pGina service to start, and the CP will (of course) be unable to 
+communicate with the service until it is started.
+
+<h3>Plugins</h3>
 
 pGina manages the Windows login process by delegating the work to a set of zero or more
 plugins.  Plugins have the job of deciding whether or not the user is who she
@@ -134,3 +171,24 @@ provides a "live" view of the pGina log files directly within the UI.  If someth
 fails to work as expected, you should be able to find information within the 
 log view regarding what occured.
 
+<h2 id="logging">Logging</h2>
+
+pGina logs information to the following files, found in the main pGina installation
+directory ( typically `C:\Program Files\pGina` ).
+
+* `pGina.Configuration_log.txt` -- This contains log messages from the pGina configuration
+application.  
+* `pGina.Service.ServiceHost_log.txt` -- This file contains log messages from the pGina service.
+* `pGina.CredentialProvider.Registration_log.txt` -- This contains log messages from the
+registration utility that is used during installation/uninstallation to enable/disable the
+CP and pGina service.
+
+Logging support in pGina is supported by [Apache log4net](http://logging.apache.org/log4net/),
+and is configured within the log4net configuration file, which is (by default) located
+here: 
+
+`C:\Program Files\pGina\log4net.config`.  
+
+If you would like to log to a different file,
+simply edit this file.  For details about log4net configuration, see the 
+[Apache log4net documentation](http://logging.apache.org/log4net/release/manual/introduction.html).
