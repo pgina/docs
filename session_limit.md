@@ -15,8 +15,8 @@ How it Works
 
 The Session Limit plugin will automatically log off users after a specified period of time.
 
-It works by tracking user logins (by recieving notification events).  It manages a cache of
-usernames and login times.  It manages a worker thread that wakes up periodically and checks
+It works by tracking user logins (by recieving notification events), and managing a cache of
+usernames and login times.  A worker thread wakes up periodically and checks
 for any users who have been logged on to the machine for a period of time greater than
 the limit.  If any are found, it forces a log off for those users without warning.
 
