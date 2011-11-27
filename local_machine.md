@@ -62,7 +62,7 @@ non-local account logins such as LDAP or MySQL Authentication.
 The plugin can also be configured such that the local account should be scheduled
 for removal or have it's password scrambled upon logoff.  This is implemented in the
 following way.  Upon successful completion of this stage, it records the username
-as a successful login.  It also has a background thread that wakes up every so often to 
+as a successful login.  A background thread wakes up every so often to 
 check if the user has logged off.  If so, the plugin tries to delete the 
 account/profile and/or scramble the password.
 
