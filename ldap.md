@@ -27,6 +27,13 @@ plugin registers success.
 The LDAP Authentication plugin provides support for SSL encryption and failover to one or more
 alternate servers.
 
+Typical Setup
+-------------------
+
+A typical (minimal) setup for LDAP authentication is to enable the Local Machine plugin in the 
+authentication and gateway stages, and enable LDAP in the authentication stage.  Within the 
+authentication stage, order the LDAP plugin before Local Machine.
+
 Configuration
 ---------------
 

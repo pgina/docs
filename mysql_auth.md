@@ -26,6 +26,13 @@ specific schema.  The configuration UI can be used to create the table (see belo
 can be added using standard SQL.  Since pGina does not currently support password changes,
 password changes currently need to be supported by your own tools.
 
+Typical Setup
+-------------------
+
+A typical (minimal) setup for MySQL Authentication is to enable the Local Machine plugin in the 
+authentication and gateway stages, and enable MySQL Auth. in the authentication stage.  Within the 
+authentication stage, order the MySQL plugin before Local Machine.
+
 Configuration
 -------------------
 
