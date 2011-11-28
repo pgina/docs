@@ -31,7 +31,7 @@ Configuration
 * **Username** -- The username of the local account.
 * **Domain** -- The domain of the local account.
 * **Password** -- The password of the local account.
-* **Only substitute when one of the following plugins has authenticated** -- When this is checked,
+* **Only substitute when all of the following plugins have authenticated** -- When this is checked,
 the plugin will not change the user's credentials to the credentials provided above unless
 all of the listed plugins registered success in the authentication stage.
 
