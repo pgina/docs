@@ -18,9 +18,11 @@ pGina User's Guide
 
 pGina is packaged in a standard Windows installer, so installation is as easy as
 downloading and running the installer.  After initial installation, pGina will be
-configured with the "LocalMachine" plugin installed under the authentication stage.
-This means that you will be able to use pGina to log into the machine using
-existing local accounts.
+configured with the "LocalMachine" plugin enabled for the authentication 
+and gateway stages (see below).  This means that you will be able to use 
+pGina out-of-the-box to log 
+into the machine using existing local accounts, and if necessary, the 
+LocalMachine plugin will create accounts for authenticated users.
 
 In addition to the "LocalMachine" plugin, a standard set of additional plugins 
 is provided and made available, but none of them are initally enabled.
