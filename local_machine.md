@@ -8,7 +8,7 @@ pGina Local Machine Plugin Documentation
 
 * **Plugin Name:** Local Machine
 * **Plugin Type:** Authentication, Authorization, Gateway
-* **Latest Version:** 3.0.2.0
+* **Latest Version:** 3.0.1.0
 
 How it Works
 --------------------
@@ -60,7 +60,7 @@ We recommend that you have this plugin enabled in the gateway stage if you are u
 non-local account logins such as LDAP or MySQL Authentication.
 
 The plugin can also be configured such that the local account should be scheduled
-for removal or have it's password scrambled upon logoff.  This is implemented in the
+for removal or have its password scrambled upon logoff.  This is implemented in the
 following way.  Upon successful completion of this stage, it records the username
 as a successful login.  A background thread wakes up every so often to 
 check if the user has logged off.  If so, the plugin tries to delete the 
@@ -76,12 +76,18 @@ attempt to authenticate the user against a local account.  If this is not checke
 the plugin will only attempt to authenticate when the user has not already been
 authenticated by a plugin that has executed earlier within the authentication stage.
 * **Mirror groups from local user** -- Load all groups from the local account into
-pGina so that subsequent stages will see that the user is a member of those groups.
+the pGina user information store so that the LocalMachine's Gateway stage 
+(and other subsequent plugins) will see that the 
+user is a member of those groups.  When this plugin is enabled in the Gateway 
+stage, it will attempt to make sure that the local account has the same groups 
+as listed in the internal user information store.  This is automatically done
+if the user was authenticated by this plugin regardless of the state of this
+option.
 * **Authorize all authenticated users** -- When this is checked, the plugin will 
 attempt to authorize all users.  Otherwise, the plugin will only authorize
-users that were authenticated successfully by this plugin (and not any other plugin).
+users that were authenticated successfully by this plugin.
 * **Require local administrator group membership** -- Only authorize users that are
-members of the administrator group.
+members of the Administrators group.
 * **Require membership in one of the following local groups** -- Only authorize users
 that are members of one of the groups listed below this checkbox.
 * **Failure to create or join local groups should prevent login** -- When this is 

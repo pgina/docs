@@ -8,7 +8,7 @@ LDAP Authentication Plugin Documentation
 
 * **Plugin Name:** LDAP Authentication
 * **Plugin Type:** Authentication
-* **Latest Version:** 3.0.2.0
+* **Latest Version:** 3.0.0.0
 
 How the LDAP Plugin Works
 --------------------------

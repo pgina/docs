@@ -8,7 +8,7 @@ pGina MySQL Logger Plugin Documentation
 
 * **Plugin Name:** MySQL Logger
 * **Plugin Type:** Notification
-* **Latest Version:** 3.0.2.0
+* **Latest Version:** 3.0.0.0
 
 How it Works
 ----------------

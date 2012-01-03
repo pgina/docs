@@ -8,7 +8,7 @@ pGina Single User Plugin Documentation
 
 * **Plugin Name:** Single User
 * **Plugin Type:** Gateway
-* **Latest Version:** 3.0.2.0
+* **Latest Version:** 3.0.0.0
 
 How it Works
 --------------------
