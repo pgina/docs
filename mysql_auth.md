@@ -18,9 +18,6 @@ MySQL database.  The plugin connects to the MySQL server, retrieves the account 
 including password (possibly a hash), and compares the user supplied password with the one
 retrieved from the database.  It registers success if the passwords (or hashes) match.
 
-The MySQL database can store plain text passwords or password hashes.  The plugin currently 
-supports the following hashes: MD5, SHA1, SHA256, SHA384, and SHA512.
-
 The MySQL Authentication plugin expects user information to be stored in a table with a 
 specific schema.  The configuration UI can be used to create the table (see below).  Users
 can be added using standard SQL.  Since pGina does not currently support password changes,
