@@ -176,7 +176,7 @@ log view regarding what occured.
 <h2 id="logging">Logging</h2>
 
 pGina logs information to the following files, found in the main pGina installation
-directory ( typically `C:\Program Files\pGina` ).
+directory ( typically `C:\Program Files\pGina\log` ).
 
 * `pGina.Configuration_log.txt` -- This contains log messages from the pGina configuration
 application.  
