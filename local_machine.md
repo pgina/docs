@@ -33,6 +33,11 @@ It can be configured to always attempt to authenticate, or to only do so
 if the user has not already been authenticated by a plugin that was 
 executed earlier within this stage.
 
+If the LocalMachine plugin authenticates the user, it will copy the group
+membership of the local account into pGina's internal list of groups.  Note
+that this will NOT happen if it does not successfully authenticate the user.  
+However, the authorization stage can be configured to do so anyway.
+
 Note that you probably always want to make sure that the local machine plugin
 is enabled in the authentication stage.  If not, you risk being unable to
 log into the machine if for some reason the alternate authentication methods
@@ -54,7 +59,9 @@ apply these authorization rules to all authenticated users.
 If enabled in the gateway stage, the local machine plugin ensures that the
 authenticated (and authorized) user has a local account.  If not, one is created.
 It also makes sure that the local account has the appropriate group membership.
-You can configure the plugin to add the user to a set of mandantory groups.
+Note that this stage may modify the group membership of a local account 
+(see "Local Groups" below).
+You can also configure the plugin to add the user to a set of mandantory groups.
 
 We recommend that you have this plugin enabled in the gateway stage if you are using
 non-local account logins such as LDAP or MySQL Authentication.
@@ -65,6 +72,57 @@ following way.  Upon successful completion of this stage, it records the usernam
 as a successful login.  A background thread wakes up every so often to 
 check if the user has logged off.  If so, the plugin tries to delete the 
 account/profile and/or scramble the password.
+
+### Local Groups
+
+Note that this plugin may remove local groups from a local account if it is not
+configured carefully.  In order to understand this, consider the pGina login
+process.  During the execution of the pGina pipeline, plugins can
+add or remove groups from an account (actually, just an internal list of groups).
+When the gateway stage is executed,
+the LocalMachine plugin sees this list of groups of which the user should be a
+member, and attempts to make sure that the actual local 
+account is a member of the same list of groups (no more, no less).  To do so, 
+it may remove or add groups to the local account as necessary.
+
+As an example of the kind of thing that might happen, consider the following 
+scenario.  Suppose that an account foo exists locally and in LDAP.  The local
+account is a member of the `Administrators` group.  The LDAP plugin is enabled
+in the authentication stage and the LocalMachine plugin is enabled in authentication and
+gateway stages.  Further,
+suppose that the LDAP plugin is configured to authenticate prior to the LocalMachine
+plugin, and the LocalMachine settings are the default settings.
+
+The following scenario then occurs:
+
+1.  User logs on to the machine using credentials that are valid for LDAP, but not
+   for the local account.  This might happen if the local account's password was
+   scrambled by the LocalMachine plugin (see configuration below), or the LDAP
+   password was changed and the local account's password hasn't been updated.
+   
+2.  The user is authenticated by LDAP plugin, but fails authentication in the
+   LocalMachine plugin.  The internal list of groups is empty because the
+   LocalMachine plugin failed to authenticate and therefore did not add any 
+   groups to the list (see "Authentication" above).
+   
+3.  The LocalMachine plugin does not execute in the authorization stage because
+   in the default configuration, the authorization stage is not enabled.
+  
+4.  In the gateway stage, the internal list of groups is empty so the Administrators
+   group is removed from the local account prior to logon.
+   
+If this is not the desired outcome from this scenario, one solution is to enable
+the authorization stage for the LocalMachine plugin and make sure that the 
+"mirror local groups" option is enabled and the "authorize all authenticated
+user" option is also enabled.
+
+Also, note that you probably want to make sure that the LocalMachine plugin
+executes **last** in the gateway stage.  This is because there may be other
+plugins who change the group membership in the gateway stage.  They should
+do so before the LocalMachine plugin executes because it is the LocalMachine
+plugin that makes sure that the local account is actually a member
+of the internal list of groups.
+
 
 Configuration
 --------------------
@@ -78,7 +136,7 @@ authenticated by a plugin that has executed earlier within the authentication st
 * **Mirror groups from local user** -- Load all groups from the local account into
 the pGina user information store so that the LocalMachine's Gateway stage 
 (and other subsequent plugins) will see that the 
-user is a member of those groups.  When this plugin is enabled in the Gateway 
+user should be a member of those groups.  When this plugin is enabled in the Gateway 
 stage, it will attempt to make sure that the local account has the same groups 
 as listed in the internal user information store.  This is automatically done
 if the user was authenticated by this plugin regardless of the state of this
