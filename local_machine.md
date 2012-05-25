@@ -75,18 +75,29 @@ account/profile and/or scramble the password.
 
 ### Local Groups
 
-Note that this plugin may remove local groups from a local account if it is not
-configured carefully.  In order to understand this, consider the pGina login
+In the gateway stage, this plugin will make sure that the group membership of
+the local account is an exact match with the list of groups provided by the 
+plugins.  This can potentially remove or add groups to an existing account.
+In order to understand this, consider the pGina login
 process.  During the execution of the pGina pipeline, plugins can
-add or remove groups from an account (actually, just an internal list of groups).
-When the gateway stage is executed,
+add or remove groups from an internal list of groups.  This list is initially
+empty at the beginning of the pipeline.
+When the gateway stage is executed, 
 the LocalMachine plugin sees this list of groups of which the user should be a
 member, and attempts to make sure that the actual local 
 account is a member of the same list of groups (no more, no less).  To do so, 
 it may remove or add groups to the local account as necessary.
 
-As an example of the kind of thing that might happen, consider the following 
-scenario.  Suppose that an account foo exists locally and in LDAP.  The local
+There are two locations where the group membership of the local account may be
+copied into the internal list of groups.  First, in the authentication stage
+the LocalMachine plugin will copy the group membership if the user is successfully
+authenticated by the plugin.  Second, the authorization stage will copy the group
+membership of the local account if configured to do so (see the "Mirror groups from
+local user" option below).
+
+Care must be taken to avoid removing needed groups.  As an example of the kind 
+of thing that might happen, consider the following 
+scenario.  Suppose that account `foo` exists locally on the machine and in LDAP.  The local
 account is a member of the `Administrators` group.  The LDAP plugin is enabled
 in the authentication stage and the LocalMachine plugin is enabled in authentication and
 gateway stages.  Further,
@@ -114,7 +125,7 @@ The following scenario then occurs:
 If this is not the desired outcome from this scenario, one solution is to enable
 the authorization stage for the LocalMachine plugin and make sure that the 
 "mirror local groups" option is enabled and the "authorize all authenticated
-user" option is also enabled.
+users" option is also enabled.
 
 Also, note that you probably want to make sure that the LocalMachine plugin
 executes **last** in the gateway stage.  This is because there may be other
@@ -122,7 +133,6 @@ plugins who change the group membership in the gateway stage.  They should
 do so before the LocalMachine plugin executes because it is the LocalMachine
 plugin that makes sure that the local account is actually a member
 of the internal list of groups.
-
 
 Configuration
 --------------------
