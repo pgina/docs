@@ -16,6 +16,8 @@ pGina Documentation: Index
    * [MySQL Authentication](mysql_auth.html)
    * [Single User](single_user.html)
    * [Session Limit](session_limit.html)
+   * [Email Authentication](email_auth.html)
+   * [Modify Username](username_mod.html)
 
 ## Developer Docs
 
