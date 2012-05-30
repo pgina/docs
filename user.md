@@ -70,7 +70,7 @@ and runs with administrator priviledges.  Note that upon initial boot, it may ta
 some time for pGina service to start, and the CP will (of course) be unable to 
 communicate with the service until it is started.
 
-<h3>Plugins</h3>
+<h3 id="plugins">Plugins</h3>
 
 pGina manages the Windows login process by delegating the work to a set of zero or more
 plugins.  Plugins have the job of deciding whether or not the user is who she
