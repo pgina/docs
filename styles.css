@@ -19,4 +19,8 @@ img { padding: 5px; margin: 5px; box-shadow: 1px 1px 3px #aaa; }
 #doc-head ul a:hover { text-decoration: none; }
 #main-content { margin: 1em; }
 
+code { border: solid 1px #aaaaaa; background: #f5f5f5; padding: 0 0.3em; }
+pre { border: solid 1px #aaaaaa; background: #f5f5f5; padding: 0.5em 1em; margin: 0 2em; }
+pre code { border: none; }
+
 #footer { margin: 2em 0 0 0; padding: 1em; background: #ccc; color: #1b1b1b; }
