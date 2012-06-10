@@ -60,7 +60,7 @@ Save and do a quick build ("Build"->"Build Solution").  Verify that your plugin'
 `dll` appears in the `Plugins\bin` directory.  You should see 
 `pGina.Plugin.HelloPlugin.dll`.
 
-Next, we need to add references to the pGina SDK dll's and the log4net dll.  
+Next, we need to add references to the pGina SDK dll's and the log4net dll.
 Select "Project" -> "Add reference...".  Select the "Browse" tab, and browse
 to `Plugins\SDK`, and select `pGina.Shared.dll`, `Abstractions.dll`,
 and `log4net.dll` (`pGina.Core.dll` is not necessary for plugin development).
@@ -102,9 +102,11 @@ of the plugin.
 The `Uuid` property must return a unique ID for this plugin.  You can generate
 a new Guid using Visual Studio ( select "Tools" -> "Create GUID" ).
 
+    private static readonly Guid m_uuid = new Guid("CED8D126-9121-4CD2-86DE-3D84E4A2625E"); 
+
     public Guid Uuid
     {
-        get { return new Guid("CED8D126-9121-4CD2-86DE-3D84E4A2625E"); }
+        get { return m_uuid; }
     }
 
 Note that the above is just an example.  You should generate a GUID and replace
@@ -176,17 +178,110 @@ point.  In the sections below, we'll dive into some more advanced plugin concept
 Adding Logging to Your Plugin
 ---------------------------------------
 
-Coming soon...
+Yourr plugin should log information about its progress and activites.  Logging
+support is provided via [Apache log4net][log4net]. Adding logging to a plugin
+is simple.  The first step is to create a logger object.  You can do this in the
+`Starting` method, or the constructor.  We recommend that you do not statically
+initialize this object.  For example, to initialize your logger in the constructor,
+use the following code:
+
+    private ILog m_logger;
+    
+    public PluginImpl()
+    {
+        m_logger = LogManager.GetLogger("pGina.Plugin.HelloPlugin");
+    }
+
+To log messages using the logger, you can use any of the standard [log4net][log4net]
+logging functions.  For example:
+
+    if (userInfo.Username.Contains("hello") && userInfo.Password.Contains("pGina"))
+    {
+        // Successful authentication
+        m_logger.InfoFormat("Successfully authenticated {0}", userInfo.Username);
+        return new BooleanResult() { Success = true };
+    }
+    // Authentication failure
+    m_logger.ErrorFormat("Authentication failed for {0}", userInfo.Username);
+    return new BooleanResult() { Success = false, Message = "Incorrect username or password." };
+        
+For more about log4net, vist the [log4net web site][log4net].
 
 Storing Plugin Settings in the Registry
 ---------------------------------------
 
-Coming soon...
+If your plugin requires configurable settings, they should be stored in the
+registry, as a sub-key of the main pGina registry key.  Support for this is
+provided via the `pGinaDynamicSettings` class.  This class utilizes the C#
+`DynamicObject` class and the `dynamic` type.  Settings can be queried and
+set as if they are properties of the object.  
+
+To use `pGinaDynamicSettings` we recommend that you instantiate the object and
+immediately set the defaults for all of your settings.  It makes sense to do
+this in a static initializer.  For example:
+
+    private static dynamic m_settings;
+    internal static dynamic Settings { get { return m_settings; } }
+
+    static PluginImpl()
+    {
+        m_settings = new pGina.Shared.Settings.pGinaDynamicSettings(m_uuid);
+
+        m_settings.SetDefault("Foo", "Bar");
+        m_settings.SetDefault("DoSomething", true);
+        m_settings.SetDefault("ListOfStuff", new string[] { "a", "b", "c" });
+        m_settings.SetDefault("Size", 1);
+    }
+
+The `SetDefault` method will initalize a setting in the registry if it does not
+already exist.  If the registry setting exists, the method has no effect.  Be
+sure to instantiate the `pGinaDynamicSettings` object using the `Guid` of your
+plugin.  This will ensure that your settings are stored in the approprate 
+registry key (usually: `HKLM\SOFTWARE\pGina3\Plugins\{guid}` where `{guid}` is 
+replaced with the Guid of your plugin).
+
+The supported data types for settings are `string`, `bool`, `string[]`, and
+`int`.  It is highly recommended that you set defaults as soon as your object
+is created.  This will avoid runtime exceptions when trying to access a 
+non-existent registry value.
+
+To set/read the settings, you simply treat them as properties of the object.
+For example:
+
+    bool okToGoAhead = Settings.DoSomething;
+    if (okToGoAhead)
+    {
+        Settings.Foo = "Baz";
+    }
+
+Note that when reading a property it must be able to determine the data type
+at run-time.  If you try to read the setting in a context that is ambiguous,
+you may recieve a run-time exception.  Your best bet is to assign the setting
+to a local variable with the appropriate data type (as shown above).
 
 Creating a Plugin Configuration Dialog
 --------------------------------------
 
-Coming soon...
+To provide a dialog to the user for configuration of your plugin via the 
+pGina configuration UI, you implement the `IPluginConfiguration` interface.
+
+    public class PluginImpl : pGina.Shared.Interfaces.IPluginAuthentication,
+        pGina.Shared.Interfaces.IPluginConfiguration
+
+This requires you to implement the method `Configure`.  This method should
+initalize and display your dialog, and will be called by the pGina configuration
+UI when the user requests to configure your plugin.  
+
+Create a Windows form (use "Project" -> "Add windows form..."), and set up
+your dialog.  Then make sure to invoke your windows form within the `Configure`
+method.  For example, if my Windows form was called `Configuration`, I'd use
+the following code:
+
+    public void Configure()
+    {
+        Configuration myDialog = new Configuration();
+        myDialog.ShowDialog();
+    }
 
 Authorization and Gateway Plugins
 ---------------------------------
@@ -195,3 +290,4 @@ Coming soon...
 
 [pgina-github]: https://github.com/pgina/pgina "pGina repo on GitHub"
 [example-code]: ExamplePluginImpl.cs "Example plugin source code."
+[log4net]: http://logging.apache.org/log4net/ "Log4Net web site"
