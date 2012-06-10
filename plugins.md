@@ -72,13 +72,15 @@ You're now ready to start developing your plugin!
 In this example, we'll create an authentication plugin.  We'll start with
 a class in the default namespace for this plugin:
 
-    namespace pGina.Plugin.HelloPlugin
+{% highlight csharp %}
+namespace pGina.Plugin.HelloPlugin
+{
+    public class PluginImpl : pGina.Shared.Interfaces.IPluginAuthentication
     {
-        public class PluginImpl : pGina.Shared.Interfaces.IPluginAuthentication
-        {
 
-        }
     }
+}
+{% endhighlight %}
 
 You'll probably want to change the name of the file to `PluginImpl.cs` to
 match this class name.  
@@ -86,28 +88,34 @@ match this class name.
 Next, we'll implement the required interface members, starting with `Name`.
 This property should provide a human readable name for the plugin.
 
-    public string Name
-    {
-        get { return "Hello"; }
-    }
+{% highlight csharp %}
+public string Name
+{
+    get { return "Hello"; }
+}
+{% endhighlight %}
 
 The `Description` property should provide a short (one sentence) description
 of the plugin.
 
-    public string Description
-    {
-        get { return "Authenticates all users with 'hello' in the username and 'pGina' in the password"; }
-    }
+{% highlight csharp %}
+public string Description
+{
+    get { return "Authenticates all users with 'hello' in the username and 'pGina' in the password"; }
+}
+{% endhighlight %}
 
 The `Uuid` property must return a unique ID for this plugin.  You can generate
 a new Guid using Visual Studio ( select "Tools" -> "Create GUID" ).
 
-    private static readonly Guid m_uuid = new Guid("CED8D126-9121-4CD2-86DE-3D84E4A2625E"); 
+{% highlight csharp %}
+private static readonly Guid m_uuid = new Guid("CED8D126-9121-4CD2-86DE-3D84E4A2625E"); 
 
-    public Guid Uuid
-    {
-        get { return m_uuid; }
-    }
+public Guid Uuid
+{
+    get { return m_uuid; }
+}
+{% endhighlight %}
 
 Note that the above is just an example.  You should generate a GUID and replace
 the string above with that GUID.
@@ -115,13 +123,15 @@ the string above with that GUID.
 The `Version` property should return the version number for your plugin.  The
 best way to do this is to query for it using reflection.  For example:
 
-    public string Version
+{% highlight csharp %}
+public string Version
+{
+    get
     {
-        get
-        {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        }
+        return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
     }
+}
+{% endhighlight %}
 
 To change the version number, modify `Properties\AssemblyInfo.cs`.
 
@@ -132,9 +142,11 @@ they are **not** intended
 as intialization/cleanup for each login.  For our plugin, we don't need them
 to do anything, so we leave them empty.
 
-    public void Starting() { }
-    
-    public void Stopping() { }
+{% highlight csharp %}
+public void Starting() { }
+
+public void Stopping() { }
+{% endhighlight %}
 
 Finally, we get to the meat of our plugin, the `AuthenticateUser` method.  This
 is called by the pGina service at the appropriate time during the authentication
@@ -144,18 +156,20 @@ simply verify that the username contains the word `hello` and that the password
 is not empty.  If that is the case, we return a successful result, if not we
 return failure.  We return the result in a `BooleanResult` object.
 
-    public BooleanResult AuthenticateUser(SessionProperties properties)
-    {
-        UserInformation userInfo = properties.GetTrackedSingle<UserInformation>();
+{% highlight csharp %}
+public BooleanResult AuthenticateUser(SessionProperties properties)
+{
+    UserInformation userInfo = properties.GetTrackedSingle<UserInformation>();
 
-        if (userInfo.Username.Contains("hello") && userInfo.Password.Contains("pGina"))
-        {
-            // Successful authentication
-            return new BooleanResult() { Success = true };
-        }
-        // Authentication failure
-        return new BooleanResult() { Success = false, Message = "Incorrect username or password." };
+    if (userInfo.Username.Contains("hello") && userInfo.Password.Contains("pGina"))
+    {
+        // Successful authentication
+        return new BooleanResult() { Success = true };
     }
+    // Authentication failure
+    return new BooleanResult() { Success = false, Message = "Incorrect username or password." };
+}
+{% endhighlight %}
 
 The `BooleanResult` object contains two properties: `Success` and `Message`.
 You do not always need to set the `Message` property, but you always want to
@@ -185,25 +199,29 @@ is simple.  The first step is to create a logger object.  You can do this in the
 initialize this object.  For example, to initialize your logger in the constructor,
 use the following code:
 
-    private ILog m_logger;
-    
-    public PluginImpl()
-    {
-        m_logger = LogManager.GetLogger("pGina.Plugin.HelloPlugin");
-    }
+{% highlight csharp %}
+private ILog m_logger;
+
+public PluginImpl()
+{
+    m_logger = LogManager.GetLogger("pGina.Plugin.HelloPlugin");
+}
+{% endhighlight %}
 
 To log messages using the logger, you can use any of the standard [log4net][log4net]
 logging functions.  For example:
 
-    if (userInfo.Username.Contains("hello") && userInfo.Password.Contains("pGina"))
-    {
-        // Successful authentication
-        m_logger.InfoFormat("Successfully authenticated {0}", userInfo.Username);
-        return new BooleanResult() { Success = true };
-    }
-    // Authentication failure
-    m_logger.ErrorFormat("Authentication failed for {0}", userInfo.Username);
-    return new BooleanResult() { Success = false, Message = "Incorrect username or password." };
+{% highlight csharp %}
+if (userInfo.Username.Contains("hello") && userInfo.Password.Contains("pGina"))
+{
+    // Successful authentication
+    m_logger.InfoFormat("Successfully authenticated {0}", userInfo.Username);
+    return new BooleanResult() { Success = true };
+}
+// Authentication failure
+m_logger.ErrorFormat("Authentication failed for {0}", userInfo.Username);
+return new BooleanResult() { Success = false, Message = "Incorrect username or password." };
+{% endhighlight %}
         
 For more about log4net, vist the [log4net web site][log4net].
 
@@ -220,18 +238,20 @@ To use `pGinaDynamicSettings` we recommend that you instantiate the object and
 immediately set the defaults for all of your settings.  It makes sense to do
 this in a static initializer.  For example:
 
-    private static dynamic m_settings;
-    internal static dynamic Settings { get { return m_settings; } }
+{% highlight csharp %}
+private static dynamic m_settings;
+internal static dynamic Settings { get { return m_settings; } }
 
-    static PluginImpl()
-    {
-        m_settings = new pGina.Shared.Settings.pGinaDynamicSettings(m_uuid);
+static PluginImpl()
+{
+    m_settings = new pGina.Shared.Settings.pGinaDynamicSettings(m_uuid);
 
-        m_settings.SetDefault("Foo", "Bar");
-        m_settings.SetDefault("DoSomething", true);
-        m_settings.SetDefault("ListOfStuff", new string[] { "a", "b", "c" });
-        m_settings.SetDefault("Size", 1);
-    }
+    m_settings.SetDefault("Foo", "Bar");
+    m_settings.SetDefault("DoSomething", true);
+    m_settings.SetDefault("ListOfStuff", new string[] { "a", "b", "c" });
+    m_settings.SetDefault("Size", 1);
+}
+{% endhighlight %}
 
 The `SetDefault` method will initalize a setting in the registry if it does not
 already exist.  If the registry setting exists, the method has no effect.  Be
@@ -248,11 +268,13 @@ non-existent registry value.
 To set/read the settings, you simply treat them as properties of the object.
 For example:
 
-    bool okToGoAhead = Settings.DoSomething;
-    if (okToGoAhead)
-    {
-        Settings.Foo = "Baz";
-    }
+{% highlight csharp %}
+bool okToGoAhead = Settings.DoSomething;
+if (okToGoAhead)
+{
+    Settings.Foo = "Baz";
+}
+{% endhighlight %}
 
 Note that when reading a property it must be able to determine the data type
 at run-time.  If you try to read the setting in a context that is ambiguous,
@@ -265,8 +287,10 @@ Creating a Plugin Configuration Dialog
 To provide a dialog to the user for configuration of your plugin via the 
 pGina configuration UI, you implement the `IPluginConfiguration` interface.
 
-    public class PluginImpl : pGina.Shared.Interfaces.IPluginAuthentication,
-        pGina.Shared.Interfaces.IPluginConfiguration
+{% highlight csharp %}
+public class PluginImpl : pGina.Shared.Interfaces.IPluginAuthentication,
+    pGina.Shared.Interfaces.IPluginConfiguration
+{% endhighlight %}
 
 This requires you to implement the method `Configure`.  This method should
 initalize and display your dialog, and will be called by the pGina configuration
@@ -277,11 +301,13 @@ your dialog.  Then make sure to invoke your windows form within the `Configure`
 method.  For example, if my Windows form was called `Configuration`, I'd use
 the following code:
 
-    public void Configure()
-    {
-        Configuration myDialog = new Configuration();
-        myDialog.ShowDialog();
-    }
+{% highlight csharp %}
+public void Configure()
+{
+    Configuration myDialog = new Configuration();
+    myDialog.ShowDialog();
+}
+{% endhighlight %}
 
 Authorization and Gateway Plugins
 ---------------------------------
