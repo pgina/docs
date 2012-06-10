@@ -9,12 +9,11 @@ Developing pGina Plugins
 Tutorial: Hello pGina
 ------------------------
 
-To learn how to create a pGina plugin, we'll start with a simple example.
-We'll develop a simple
+To learn how to create a pGina plugins, we'll start with a tutorial that 
+demonstrates the implementation of a simple
 pGina plugin that authenticates all users that have a username that includes
-the word `hello` and has `pGina` in the password.  This is 
-intended to introduce you to the concepts and tools behind pGina plugin 
-development.
+the word `hello` and has `pGina` in the password.  Along the way, you'll be
+introduced to the primary concepts and tools behind pGina plugin development.
 
 ### Tools
 
@@ -153,7 +152,7 @@ is called by the pGina service at the appropriate time during the authentication
 stage of a login.  The parameter, a `SessionProperties` object contains information
 about the user including the username and password.  For our plugin, we need to
 simply verify that the username contains the word `hello` and that the password
-is not empty.  If that is the case, we return a successful result, if not we
+contains `pGina`.  If that is the case, we return a successful result, if not we
 return failure.  We return the result in a `BooleanResult` object.
 
 {% highlight csharp %}
@@ -192,7 +191,7 @@ point.  In the sections below, we'll dive into some more advanced plugin concept
 Adding Logging to Your Plugin
 ---------------------------------------
 
-Yourr plugin should log information about its progress and activites.  Logging
+Your plugin should log information about its progress and activites.  Logging
 support is provided via [Apache log4net][log4net]. Adding logging to a plugin
 is simple.  The first step is to create a logger object.  You can do this in the
 `Starting` method, or the constructor.  We recommend that you do not statically
