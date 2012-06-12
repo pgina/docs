@@ -338,12 +338,12 @@ The gateway stage is intended for any last minute post-authorization actions tha
 may be necessary.  For example, a user's group membership might be modified
 (e.g. LDAP plugin), or
 the user's username might be modified (e.g. the single user plugin).  Generally,
-this stage should not fail, except for under exceptional circumstances.  You
+this stage should not fail, except under exceptional circumstances.  You
 should almost always return a `BooleanResult` with `Success` set to `true` unless
-for some reason the login should be denied.  Usually, in the gateway stage, the
+for some reason the login should be denied.  Usually in the gateway stage, the
 login should not be denied.  The only situation that might warrant a failure for
 this stage is if an error of some kind occurs, however, even in that
-situation, it often makes sense to return a successful result.
+situation, it often makes sense to log the error and return a successful result.
 
 `Session Properties`
 --------------------------
@@ -387,8 +387,8 @@ object along with the `IStatefulPlugin` interface (see below).
 The `IStatefulPlugin` Interface
 --------------------------------
 
-If your plugin has persistent state that needs to persist between stages of a
-given login, and makes connections to resources that needs to be relased at the
+If your plugin has state that needs to persist between stages of a
+login, and/or makes connections to resources that need to be relased at the
 end of a login chain (such as making a connection to a remote data source), you 
 should implement the `IStatefulPlugin` interface.  This interface requires
 two methods:
@@ -399,7 +399,7 @@ void EndChain(SessionProperties props) { ... }
 {% endhighlight %}
 
 `BeginChain` is called prior to the authentication stage and should be used 
-for initialization and set-up.  You should also store the needed state in the provided
+for initialization and set-up.  You should store any state in the provided
 `SessionProperties` object (see above).  For example, one might initialize a connection
 to a remote data source here and store a reference to the connection within
 the `SessionProperties` object.
@@ -409,6 +409,26 @@ failure of the login.  This should be used to clean up any resources that
 are held by the plugin.  For example, one might terminate the connection with
 a remote data source here.
 
+Notification Plugins
+--------------------------
+
+To implement a notification plugin, you should implement the `IPluginEventNotifications`
+interface.  This interface requires the following method:
+
+{% highlight csharp %}
+void SessionChange(SessionChangeDescription changeDescription, SessionProperties properties) { ... }
+{% endhighlight %}
+
+This method is called when any of the standard Windows terminal events occurs.  The
+first parameter provides a description of the event.  This class is 
+[documented in the MSDN documentation][sessionChangeMsdn], and provides two
+main properties: `Reason` and `SessionId`.  Of primary importance is the `Reason`
+property.  The [MSDN documentation][changeReasonMsdn] describes the possible
+values for this property.  Based on the value of the `Reason` property, you can
+take the action that is appropriate for your plugin.
+
 [pgina-github]: https://github.com/pgina/pgina "pGina repo on GitHub"
 [example-code]: ExamplePluginImpl.cs "Example plugin source code."
 [log4net]: http://logging.apache.org/log4net/ "Log4Net web site"
+[sessionChangeMsdn]: http://msdn.microsoft.com/en-us/library/system.serviceprocess.sessionchangedescription.aspx "MSDN OnSessionChange"
+[changeReasonMsdn]: http://msdn.microsoft.com/en-us/library/system.serviceprocess.sessionchangedescription.reason.aspx "MSDN SessionChangeReason"
