@@ -384,6 +384,37 @@ Note that if you need to make a connection to a remote data source and you'd lik
 that connection to persiste between stages, you should make use of the `SessionProperties`
 object along with the `IStatefulPlugin` interface (see below).
 
+### Getting Information about Plugin Activity
+
+It is often the case that a plugin needs to know what other plugins have executed
+previously in the login chain, and the result of those plugins.  This information
+is stored in the `SessionProperties` object and is in a tracked single of type
+`PluginActivityInformation`.   You can query for the result of a given plugin
+via the methods `GetAuthenticationResult`, `GetAuthorizationResult`, or 
+`GetGatewayResult`.   However, use caution because if a plugin has not executed 
+yet, these will throw an exeception.  To be safe, you should first use 
+`GetAuthenticationPlugins`, `GetAuthorizationPlugins`, or `GetGatewayPlugins`
+to get a list of plugins that have executed and iterate through the list.
+
+For example, to count the number of failures in the authentication stage so far,
+you could use the following code:
+
+{% highlight csharp %}
+PluginActivityInformation pluginInfo = sessionProps.GetTrackedSingle<PluginActivityInformation>();
+
+int nSuccess = 0;
+foreach( Guid pluginId in pluginInfo.GetAuthenticationPlugins() )
+{
+    BooleanResult result = pluginInfo.GetAuthenticationResult( pluginId );
+    if( result.Success )
+        nSuccess++;
+}
+
+// nSuccess has the number of plugins that have registered success in the authentication
+// stage so far.
+{% endhighlight %}
+
+
 The `IStatefulPlugin` Interface
 --------------------------------
 
