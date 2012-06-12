@@ -10,10 +10,9 @@ Tutorial: Hello pGina
 ------------------------
 
 To learn how to create a pGina plugins, we'll start with a tutorial that 
-demonstrates the implementation of a simple
-pGina plugin that authenticates all users that have a username that includes
-the word `hello` and has `pGina` in the password.  Along the way, you'll be
-introduced to the primary concepts and tools behind pGina plugin development.
+demonstrates the implementation of a simple authentication plugin.
+Along the way, you'll be introduced to the primary concepts and tools
+behind pGina plugin development.
 
 ### Tools
 
@@ -29,7 +28,7 @@ a zip archive from [GitHub][pgina-github], or cloning the repository using
 git.  We recommend the latter because you can always update to the latest 
 plugin SDK by doing a `git pull`.
 
-### Creating your Visual Studio solution
+### Setting up Visual Studio
 
 Open Visual Studio and create a new project.  In the new project dialog, select
 the "Class Library" template under "Visual C#" -> "Windows".  Make sure to select
@@ -68,8 +67,13 @@ You're now ready to start developing your plugin!
 
 ### Implementing the Plugin
 
-In this example, we'll create an authentication plugin.  We'll start with
-a class in the default namespace for this plugin:
+In this example, we'll create an authentication plugin.  This plugin will successfully
+authenticate any user that has "hello" in the username, and "pGina" in the 
+password.
+
+To create an authentication plugin, we need to implement the interface 
+`IPluginAuthentication`.  Let's create a class in the default namespace 
+for this plugin:
 
 {% highlight csharp %}
 namespace pGina.Plugin.HelloPlugin
@@ -311,7 +315,99 @@ public void Configure()
 Authorization and Gateway Plugins
 ---------------------------------
 
-Coming soon...
+To have your plugin support the authorization stage, implement the
+`IPluginAuthorization` interface.  This requires the implementation of the following
+method:
+
+{% highlight csharp %}
+BooleanResult AuthorizeUser(SessionProperties properties) { ... }
+{% endhighlight %}
+
+This method should return a `BooleanResult` with `Success` set to `true` if
+the user is authorized by this plugin, otherwise `Success` should be set to
+`false` and an appropriate message provided in the `Message` property.
+
+To support the gateway stage, implement the `IPluginAuthenticationGateway`
+interface.  This requires you to implement the following method:
+
+{% highlight csharp %}
+BooleanResult AuthenticatedUserGateway(SessionProperties properties) { ... }
+{% endhighlight %}
+
+The gateway stage is intended for any last minute post-authorization actions that
+may be necessary.  For example, a user's group membership might be modified
+(e.g. LDAP plugin), or
+the user's username might be modified (e.g. the single user plugin).  Generally,
+this stage should not fail, except for under exceptional circumstances.  You
+should almost always return a `BooleanResult` with `Success` set to `true` unless
+for some reason the login should be denied.  Usually, in the gateway stage, the
+login should not be denied.  The only situation that might warrant a failure for
+this stage is if an error of some kind occurs, however, even in that
+situation, it often makes sense to return a successful result.
+
+`Session Properties`
+--------------------------
+
+The `SessionProperties` object is provided as a parameter to each of the three
+methods corresponding to the three stages (authentication, authorization, and
+gateway).  The most obvious use of this is to query the user information (by
+retrieving the `UserInformation` object), such
+as username, password, and group membership.  However, it is actually a general
+purpose storage object, and can be used to store
+any information that a plugin may need to persist across stages.  In fact, it
+is recommended that if you have any persistent state that needs to be passed
+between stages, you should use this object rather than using instance fields.
+
+You can store objects in the `SessionProperties` object using the provided 
+methods listed below.
+
+{% highlight csharp %}
+public void AddTracked<T>(string name, T val) { ... }
+public void AddTrackedSingle<T>(T val) { ... }
+
+public T GetTracked<T>(string name) { ... }
+public T GetTrackedSingle<T>() { ... }
+{% endhighlight %}
+
+You can store an object associated with a key (a `string`) using `AddTracked`, or
+you can store a single instance of a class using `AddTrackedSingle`.  Of course,
+your plugin should not add a tracked single of the class `UserInformation`, because
+that would clobber the `UserInformation` object that is provided by pGina core.
+
+A unique `SessionProperties` object will be provided for each login.  If your plugin
+is only involved in a single stage, then there is no need to store anything in
+this object.  However, if your plugin is involved in multiple stages, then it
+makes sense to store any persistent state related to a given login within this
+object.  
+
+Note that if you need to make a connection to a remote data source and you'd like
+that connection to persiste between stages, you should make use of the `SessionProperties`
+object along with the `IStatefulPlugin` interface (see below).
+
+The `IStatefulPlugin` Interface
+--------------------------------
+
+If your plugin has persistent state that needs to persist between stages of a
+given login, and makes connections to resources that needs to be relased at the
+end of a login chain (such as making a connection to a remote data source), you 
+should implement the `IStatefulPlugin` interface.  This interface requires
+two methods:
+
+{% highlight csharp %}
+void BeginChain(SessionProperties props) { ... }
+void EndChain(SessionProperties props) { ... }
+{% endhighlight %}
+
+`BeginChain` is called prior to the authentication stage and should be used 
+for initialization and set-up.  You should also store the needed state in the provided
+`SessionProperties` object (see above).  For example, one might initialize a connection
+to a remote data source here and store a reference to the connection within
+the `SessionProperties` object.
+
+`EndChain` is called at the end of a login chain regardless of the success or
+failure of the login.  This should be used to clean up any resources that 
+are held by the plugin.  For example, one might terminate the connection with
+a remote data source here.
 
 [pgina-github]: https://github.com/pgina/pgina "pGina repo on GitHub"
 [example-code]: ExamplePluginImpl.cs "Example plugin source code."
