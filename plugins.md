@@ -396,8 +396,8 @@ yet, these will throw an exeception.  To be safe, you should first use
 `GetAuthenticationPlugins`, `GetAuthorizationPlugins`, or `GetGatewayPlugins`
 to get a list of plugins that have executed and iterate through the list.
 
-For example, to count the number of failures in the authentication stage so far,
-you could use the following code:
+For example, to count the number of successful authentications in the 
+authentication stage so far, you could use the following code:
 
 {% highlight csharp %}
 PluginActivityInformation pluginInfo = sessionProps.GetTrackedSingle<PluginActivityInformation>();
