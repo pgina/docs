@@ -162,8 +162,10 @@ that are members of one of the groups listed below this checkbox.
 checked, the plugin will register failure if it is unable to create or join the
 local groups that are requested.
 * **Scramble password after logout** -- When this is checked, the plugin will attempt
-to scramble the password of the local account after logout.
+to scramble the password of the local account after logout.  Note that it will **not** do so if
+the local account exists prior to logon.
 * **Remove account and profile after logout** -- When this is selected, the plugin
-will attempt to remove the account and its profile after logout.
+will attempt to remove the account and its profile after logout.  Note that it will
+**not** do so if the local account exists prior to logon.
 * **Mandantory groups** -- The local account is added to these local groups if not
 already a member.
