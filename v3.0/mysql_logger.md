@@ -1,6 +1,7 @@
 ---
 title: pGina MySQL Logger Plugin Documentation
 layout: default
+rootPath: ../
 ---
 
 pGina MySQL Logger Plugin Documentation

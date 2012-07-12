@@ -1,6 +1,7 @@
 ---
 title: pGina User's Guide
 layout: default
+rootPath: ../
 ---
 
 pGina User's Guide

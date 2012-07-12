@@ -1,6 +1,7 @@
 ---
 title: pGina Local Machine Plugin Documentation
 layout: default
+rootPath: ../
 ---
 
 pGina Local Machine Plugin Documentation

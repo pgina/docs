@@ -1,6 +1,7 @@
 ---
 layout: default
 title: pGina Plugin Development
+rootPath: ../
 ---
 
 Developing pGina Plugins

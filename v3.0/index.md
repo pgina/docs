@@ -1,6 +1,7 @@
 ---
 layout: default
 title: pGina Documentation Index
+rootPath: ../
 ---
 
 pGina Documentation: Index
@@ -18,7 +19,6 @@ pGina Documentation: Index
    * [Session Limit](session_limit.html)
    * [Email Authentication](email_auth.html)
    * [Modify Username](username_mod.html)
-   * [RADIUS Authentication & Accounting](radius.html)
 
 ## Developer Docs
 

@@ -1,6 +1,7 @@
 ---
 title: pGina Email Authentication Plugin Documentation
 layout: default
+rootPath: ../
 ---
 
 Email Authentication Plugin Documentation

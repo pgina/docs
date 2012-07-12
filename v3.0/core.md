@@ -1,6 +1,7 @@
 ---
 layout: default
 title: pGina Core Developer Documentation
+rootPath: ../
 ---
 
 pGina Core Developer Documentation

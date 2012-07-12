@@ -1,6 +1,7 @@
 ---
 title: pGina Sesion Limit Plugin Documentation
 layout: default
+rootPath: ../
 ---
 
 pGina Session Limit Plugin Documentation

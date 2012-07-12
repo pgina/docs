@@ -1,6 +1,7 @@
 ---
 title: pGina MySQL Authentication Plugin Documentation
 layout: default
+rootPath: ../
 ---
 
 pGina MySQL Authentication Plugin Documentation

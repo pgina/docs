@@ -1,6 +1,7 @@
 ---
 title: pGina LDAP Plugin Documentation
 layout: default
+rootPath: ../
 ---
 
 LDAP Authentication Plugin Documentation

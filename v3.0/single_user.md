@@ -1,6 +1,7 @@
 ---
 title: pGina Single User Plugin Documentation
 layout: default
+rootPath: ../
 ---
 
 pGina Single User Plugin Documentation

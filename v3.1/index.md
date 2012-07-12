@@ -1,6 +1,7 @@
 ---
 layout: default
 title: pGina Documentation Index
+rootPath: ../
 ---
 
 pGina Documentation: Index

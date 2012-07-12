@@ -1,6 +1,7 @@
 ---
 title: pGina Username Modification Plugin Documentation
 layout: default
+rootPath: ../
 ---
 
 Username Modification Plugin Documentation
