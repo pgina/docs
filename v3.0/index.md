@@ -4,7 +4,7 @@ title: pGina Documentation Index
 rootPath: ../
 ---
 
-pGina Documentation: Index
+pGina v3.0 Documentation: Index
 ===========================
 
 ##User Documentation

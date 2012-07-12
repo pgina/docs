@@ -4,8 +4,11 @@ title: pGina Documentation Index
 rootPath: ../
 ---
 
-pGina Documentation: Index
-===========================
+pGina v3.1 Documentation: Index
+================================
+
+*This documentation is still a work in progress.  Some pages may be incomplete
+or not yet updated for the new version.*
 
 ##User Documentation
 
