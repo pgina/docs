@@ -19,6 +19,10 @@ img { padding: 5px; margin: 5px; box-shadow: 1px 1px 3px #aaa; }
 #doc-head ul a:hover { text-decoration: none; }
 #main-content { margin: 1em; }
 
+/*For tables that want to represent database entries*/
+table.repdb { border: 1px solid black; padding: 0px; }
+table.repdb th, tr, td{ border: 1px solid black; padding: 3px; }
+
 #footer { margin: 2em 0 0 0; padding: 1em; background: #ccc; color: #1b1b1b; }
 
 div.highlight { border: solid 1px #aaaaaa; padding: 0.5em 1em; margin: 0 2em; overflow: auto; }
