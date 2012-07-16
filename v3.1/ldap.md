@@ -161,3 +161,10 @@ scramble passwords and/or to remove accounts and profiles after logout.  This
 will make sure that the LocalMachine plugin does not retain group information
 on consecutive logins.  For more information, see the documentation for the
 LocalMachine plugin.
+
+Note that it is important to make sure that this plugin executes prior to the
+LocalMachine plugin in the gateway stage.  This is because the LocalMachine
+plugin is responsible for actually adding the local account to the local groups.
+If it executes prior to the LDAP plugin, it will not apply the groups that have
+been added by this plugin.
+
