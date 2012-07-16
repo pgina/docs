@@ -15,7 +15,7 @@ or not yet updated for the new version.*
 * [pGina Users Guide](user.html)
 * Plugins
    * [LocalMachine](local_machine.html)
-   * [LDAP Authentication](ldap.html)
+   * [LDAP](ldap.html)
    * [MySQL Logger](mysql_logger.html)
    * [MySQL Authentication](mysql_auth.html)
    * [Single User](single_user.html)
