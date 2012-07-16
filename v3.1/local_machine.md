@@ -9,7 +9,7 @@ pGina Local Machine Plugin Documentation
 
 * **Plugin Name:** Local Machine
 * **Plugin Type:** Authentication, Authorization, Gateway
-* **Latest Version:** 3.0.1.0
+* **Latest Version:** 3.1.0.0
 
 How it Works
 --------------------
@@ -140,10 +140,19 @@ Configuration
 
 ![LocalMachine Plugin Configuration](images/local_machine_config.png)
 
+<h3>Authentication</h3>
+
 * **Always authenticate local users** -- When this is checked, the plugin will always
-attempt to authenticate the user against a local account.  If this is not checked, 
-the plugin will only attempt to authenticate when the user has not already been
-authenticated by a plugin that has executed earlier within the authentication stage.
+    attempt to authenticate the user against a local account.  If this is not checked, 
+    the plugin will only attempt to authenticate when the user has not already been
+    authenticated by a plugin that has executed earlier within the authentication stage.
+
+    Note that this plugin will copy the groups of the local account into the internal
+    list of groups (see above) only when 
+    authentication is successful (or configured to do so in the authorization stage).
+
+<h3>Authorization</h3>
+
 * **Mirror groups from local user** -- Load all groups from the local account into
 the pGina user information store so that the LocalMachine's Gateway stage 
 (and other subsequent plugins) will see that the 
@@ -159,14 +168,25 @@ users that were authenticated successfully by this plugin.
 members of the Administrators group.
 * **Require membership in one of the following local groups** -- Only authorize users
 that are members of one of the groups listed below this checkbox.
+
+<h3>Gateway</h3>
+
 * **Failure to create or join local groups should prevent login** -- When this is 
 checked, the plugin will register failure if it is unable to create or join the
 local groups that are requested.
+* **Remove account and profile after logout when account does not exist prior to logon** -- 
+When this is selected, the plugin will attempt to remove the account and its 
+profile after logout when the account did not exist prior to logon.
 * **Scramble password after logout** -- When this is checked, the plugin will attempt
-to scramble the password of the local account after logout.  Note that it will **not** do so if
-the local account exists prior to logon.
-* **Remove account and profile after logout** -- When this is selected, the plugin
-will attempt to remove the account and its profile after logout.  Note that it will
-**not** do so if the local account exists prior to logon.
+to scramble the password of the local account after logout.  **Caution:** 
+when this option is enabled it is
+a good idea to have the below option enabled or place some exceptions in the
+list to "Never scramble."  Otherwise, you risk being locked out of your machine
+if you rely on some local accounts.
+* **Only scramble when LocalMachine authentication fails or does not execute** --
+When the "Scramble password after logout" option is enabled, this causes the
+plugin to only scramble when the LocalMachine fails to authenticate the user.
+* **Never scramble the passwords for these accounts** -- This is a list of usernames
+that will never have their passwords scrambled regardless of the above options.
 * **Mandantory groups** -- The local account is added to these local groups if not
 already a member.
