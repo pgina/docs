@@ -153,3 +153,11 @@ The gateway tab provides options for creating and removing rules for adding
 local groups based on LDAP group membership.  The rules are all applied in order
 from top to bottom.  All rules are applied regardless of how many are a match
 for the user logging in.  
+
+When users are removed from LDAP groups, they may not be removed from the local
+groups without careful configuration of the LocalMachine plugin.  For this to
+work properly, you should make sure to configure the LocalMachine plugin to 
+scramble passwords and/or to remove accounts and profiles after logout.  This 
+will make sure that the LocalMachine plugin does not retain group information
+on consecutive logins.  For more information, see the documentation for the
+LocalMachine plugin.
