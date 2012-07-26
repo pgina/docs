@@ -89,8 +89,10 @@ member, and attempts to make sure that the actual local
 account is a member of the same list of groups (no more, no less).  To do so, 
 it may remove or add groups to the local account as necessary.
 
-There are two locations where the group membership of the local account may be
-copied into the internal list of groups.  First, in the authentication stage
+If the local account already exists prior to logon, there are two locations 
+where this plugin will
+copy the group membership of the existing local account into the internal 
+list of groups described above.  First, in the authentication stage
 the LocalMachine plugin will copy the group membership if the user is successfully
 authenticated by the plugin.  Second, the authorization stage will copy the group
 membership of the local account if configured to do so (see the "Mirror groups from
@@ -98,24 +100,24 @@ local user" option below).
 
 Care must be taken to avoid removing needed groups.  As an example of the kind 
 of thing that might happen, consider the following 
-scenario.  Suppose that account `foo` exists locally on the machine and in LDAP.  The local
-account is a member of the `Administrators` group.  The LDAP plugin is enabled
+scenario where a user is unintentionally removed from the `Administrators` group.  
+Suppose that account `foo` exists locally on the machine and in LDAP.  The local
+account is a member of the `Administrators` group.  The [LDAP plugin](ldap.html) is enabled
 in the authentication stage and the LocalMachine plugin is enabled in authentication and
-gateway stages.  Further,
-suppose that the LDAP plugin is configured to authenticate prior to the LocalMachine
-plugin, and the LocalMachine settings are the default settings.
+gateway stages.  Further, suppose that the LocalMachine settings are the default settings.
 
 The following scenario then occurs:
 
-1.  User logs on to the machine using credentials that are valid for LDAP, but not
+1.  User `foo` enters credentials that are valid for LDAP, but not
    for the local account.  This might happen if the local account's password was
    scrambled by the LocalMachine plugin (see configuration below), or the LDAP
    password was changed and the local account's password hasn't been updated.
    
-2.  The user is authenticated by LDAP plugin, but fails authentication in the
-   LocalMachine plugin.  The internal list of groups is empty because the
+2.  The user is authenticated by the [LDAP plugin](ldap.html), but fails 
+   authentication in the LocalMachine plugin.  The internal list of groups is 
+   empty because the
    LocalMachine plugin failed to authenticate and therefore did not add any 
-   groups to the list (see "Authentication" above).
+   groups to the list (see above).
    
 3.  The LocalMachine plugin does not execute in the authorization stage because
    in the default configuration, the authorization stage is not enabled.
