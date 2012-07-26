@@ -9,7 +9,7 @@ Email Authentication Plugin Documentation
 
 * **Plugin Name:** RADIUS Authentication & Accounting Plugin
 * **Plugin Type:** Authentication, Notification
-* **Latest Version:** 3.0.0.0
+* **Version:** 3.1.x
 
 How it Works
 --------------------

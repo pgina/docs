@@ -9,7 +9,7 @@ Username Modification Plugin Documentation
 
 * **Plugin Name:** Username Modification
 * **Plugin Type:** Authenticationm, Authorization, Gateway
-* **Latest Version:** 3.0.0.0
+* **Version:** 3.1.x
 
 How it Works
 --------------------

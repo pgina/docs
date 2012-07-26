@@ -9,7 +9,7 @@ pGina Local Machine Plugin Documentation
 
 * **Plugin Name:** Local Machine
 * **Plugin Type:** Authentication, Authorization, Gateway
-* **Latest Version:** 3.1.0.0
+* **Version:** 3.1.x
 
 How it Works
 --------------------

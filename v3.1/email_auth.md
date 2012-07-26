@@ -9,7 +9,7 @@ Email Authentication Plugin Documentation
 
 * **Plugin Name:** Email Authentication
 * **Plugin Type:** Authentication
-* **Latest Version:** 3.0.0.1
+* **Version:** 3.1.x
 
 How it Works
 --------------------

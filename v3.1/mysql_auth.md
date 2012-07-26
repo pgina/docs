@@ -9,7 +9,7 @@ pGina MySQL Authentication Plugin Documentation
 
 * **Plugin Name:** MySQL Authentication
 * **Plugin Type:** Authentication
-* **Latest Version:** 3.0.0.0
+* **Version:** 3.1.x
 
 How it Works
 -----------------

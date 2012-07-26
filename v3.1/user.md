@@ -140,7 +140,7 @@ stage is summarized below.
   however, the intention is not to authorize users, but to provide post-authorization
   account management that may fail.  For example, the "Local Machine" plugin 
   executes within the gateway stage.  It is responsible for creating (if necessary) a local
-  Windows account that matches the credentials of the user that is logging in.  
+  Windows account that matches the credentials of the user that is logging in.
   If for some reason, this fails, then the user cannot be logged in, and this
   plugin must stop the login process and provide an appropriate
   error message.  In general, this stage provides a "last chance" for a login

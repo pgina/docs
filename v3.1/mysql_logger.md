@@ -9,7 +9,7 @@ pGina MySQL Logger Plugin Documentation
 
 * **Plugin Name:** MySQL Logger
 * **Plugin Type:** Notification
-* **Latest Version:** 3.0.0.0
+* **Version:** 3.1.x
 
 How it Works
 ----------------
@@ -83,19 +83,27 @@ In the event you do not wish to have the plugin create the tables for you, the
 schema has been replicated below:
 
 **Event Table**:
->    CREATE TABLE event_table (
->       TimeStamp DATETIME,
->       Host TINYTEXT,
->       Ip VARCHAR(15),
->       Machine TINYTEXT,
->       Message TEXT )
+
+{% highlight sql %}
+CREATE TABLE event_table (
+   TimeStamp DATETIME,
+   Host TINYTEXT,
+   Ip VARCHAR(15),
+   Machine TINYTEXT,
+   Message TEXT 
+)
+{% endhighlight %}
 
 **Session Table**:
->    CREATE TABLE session_table (
->        `dbid` BIGINT NOT NULL AUTO_INCREMENT,
->        `loginstamp` DATETIME NOT NULL,
->        `logoutstamp` DATETIME NOT NULL,
->        `username` TEXT NOT NULL,
->        `machine` TEXT NOT NULL,
->        `ipaddress` TEXT NOT NULL,
->        INDEX (`dbid`))
+
+{% highlight sql %}
+CREATE TABLE session_table (
+    dbid BIGINT NOT NULL AUTO_INCREMENT,
+    loginstamp DATETIME NOT NULL,
+    logoutstamp DATETIME NOT NULL,
+    username TEXT NOT NULL,
+    machine TEXT NOT NULL,
+    ipaddress TEXT NOT NULL,
+    INDEX (dbid)
+)
+{% endhighlight %}
