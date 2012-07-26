@@ -36,7 +36,7 @@ executed earlier within this stage.
 
 If the LocalMachine plugin authenticates the user, it will copy the group
 membership of the local account into pGina's internal list of groups.  Note
-that this will NOT happen if it does not successfully authenticate the user.  
+that this will NOT happen if it does not successfully authenticate the user.
 However, the authorization stage can be configured to do so anyway.
 
 Note that you probably always want to make sure that the local machine plugin
@@ -100,7 +100,7 @@ local user" option below).
 
 Care must be taken to avoid removing needed groups.  As an example of the kind 
 of thing that might happen, consider the following 
-scenario where a user is unintentionally removed from the `Administrators` group.  
+scenario where a user is unintentionally removed from the `Administrators` group.
 Suppose that account `foo` exists locally on the machine and in LDAP.  The local
 account is a member of the `Administrators` group.  The [LDAP plugin](ldap.html) is enabled
 in the authentication stage and the LocalMachine plugin is enabled in authentication and
