@@ -33,7 +33,7 @@ plugin SDK by doing a `git pull`.
 
 Open Visual Studio and create a new project.  In the new project dialog, select
 the "Class Library" template under "Visual C#" -> "Windows".  Make sure to select
-".NET Framework 4" in the drop-down list at the top.  Select the `Plugins` directory
+".NET Framework 4" in the drop-down list at the top.  Select the `Plugins\Contrib` directory
 of the pGina distribution as the location, and make sure to select "Create new
 solution."  The name and solution name should be a short version of the name
 of your plugin without any spaces.  For this example, we'll use the name 
@@ -44,7 +44,7 @@ we jump into the code, let's configure the build settings.  Select
 "Project" -> "HelloPlugin Properties...".
 
 It makes things easiest if you set your build directory to a common location for all
-plugins.  Currently, all plugins build to `Plugins\bin`.  To update your build
+plugins.  Currently, all contributed plugins build to `Plugins\Contrib\bin`.  To update your build
 settings so that the output directory is set to this directory, click on the "Build" tab,
 select "All Configurations" from the "Configuration" list, and set "Output path" to
 `..\..\bin`.
@@ -56,7 +56,7 @@ We should also use an isolated namespace for our plugin, so under "default
 namespace", use `pGina.Plugin.HelloPlugin`.
 
 Save and do a quick build ("Build"->"Build Solution").  Verify that your plugin's
-`dll` appears in the `Plugins\bin` directory.  You should see 
+`dll` appears in the `Plugins\Contrib\bin` directory.  You should see 
 `pGina.Plugin.HelloPlugin.dll`.
 
 Next, we need to add references to the pGina SDK dll's and the log4net dll.
@@ -186,7 +186,7 @@ plugin can be downloaded from this link [ExamplePluginImpl.cs][example-code].
 ### Testing your plugin
 
 Execute the pGina configuration utility, under the "Plugin Configuration" tab, 
-make sure to add the plugin build directory in the pGina distribution (`Plugins\bin`),
+make sure to add the plugin build directory in the pGina distribution (`Plugins\Contrib\bin`),
 and enable the plugin by checking the checkbox for the authentication stage.
 Then, under the "Simulation" tab, test your plugin by trying out a few logins.
 
