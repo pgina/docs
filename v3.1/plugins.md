@@ -141,7 +141,7 @@ To change the version number, modify `Properties\AssemblyInfo.cs`.
 
 Next, we implement the `Starting` and `Stopping` methods.  These are executed
 at startup/shutdown of the pGina service.  They're intended for 
-initialization/cleanup tasks for things that persist across logins.  Note that 
+initialization/cleanup tasks for things that are service related.  Note that 
 they are **not** intended
 as intialization/cleanup for each logon.  They are not called during simulation
 so you should not do anything in these methods that is needed for logon 
