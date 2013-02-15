@@ -143,8 +143,10 @@ Next, we implement the `Starting` and `Stopping` methods.  These are executed
 at startup/shutdown of the pGina service.  They're intended for 
 initialization/cleanup tasks for things that persist across logins.  Note that 
 they are **not** intended
-as intialization/cleanup for each login.  For our plugin, we don't need them
-to do anything, so we leave them empty.
+as intialization/cleanup for each logon.  They are not called during simulation
+so you should not do anything in these methods that is needed for logon 
+processing.  Most plugins don't need to do anything within these methods.
+For our example plugin, we leave them empty.
 
 {% highlight csharp %}
 public void Starting() { }
