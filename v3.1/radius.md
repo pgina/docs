@@ -4,7 +4,7 @@ layout: default
 rootPath: ../
 ---
 
-Email Authentication Plugin Documentation
+RADIUS Plugin Documentation
 ===================
 
 * **Plugin Name:** RADIUS Authentication & Accounting Plugin
