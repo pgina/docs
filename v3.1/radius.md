@@ -39,12 +39,12 @@ The configuration interface for the RADIUS plugin is shown below.
 
 Each configuration option is described below:
 
-* **Server** -- The RADIUS server to sending authentication and accounting requests to
+* **Server(s)** -- Space-separated list of one or more RADIUS servers to sending authentication and accounting requests to
 * **Authentication Port** -- The port used for authentication. Default is 1812, though legacy RADIUS servers may default to 1645.
 * **Accounting Port** -- The port used for accounting. Default is 1813, though legacy RADIUS servers may default to 1646.
-* **Timeout** -- The amount of time in seconds to wait for a response from the RADIUS server
-* **Retry** -- The number of times to retry sending a RADIUS packet in the case of a timeout.
-* **Shared Secret** -- The shared secret of the RADIUS server.
+* **Timeout** -- The amount of time in seconds to wait for a response from each RADIUS server
+* **Retry** -- The number of times to retry sending a RADIUS packet (per server) in the case of a timeout.
+* **Shared Secret** -- The shared secret of the RADIUS server(s)
 * **Machine Identifier** -- A client computer may identify itself by its' IP address or a unique name (or both). 
 * **Use modified username for accounting** -- The RADIUS plugin will log the username entered by the user 
 by default. If you would like to log the name after it has been modified (by the Modify 
